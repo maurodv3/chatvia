@@ -1,0 +1,61 @@
+plugins {
+	id 'org.springframework.boot' version '2.6.6'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id 'jacoco'
+}
+
+group = 'com.mauro'
+version = '0.0.1'
+sourceCompatibility = '17'
+
+repositories {
+	mavenCentral()
+}
+
+bootJar {
+	mainClass = 'com.mauro.chatvia.ChatviaApplication'
+	archiveFileName = "app.jar"
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'info.picocli:picocli-spring-boot-starter:4.6.3'
+	implementation 'org.springframework.boot:spring-boot-starter-reactor-netty'
+	implementation 'org.projectreactor:reactor-net:1.1.6.RELEASE'
+	implementation 'io.netty:netty-all'
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+	useJUnitPlatform()
+	finalizedBy jacocoTestReport
+}
+
+jacoco {
+	toolVersion = "0.8.8"
+}
+
+jacocoTestReport {
+	reports {
+		xml.required = false
+		csv.required = false
+		html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+	}
+}
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			limit {
+				minimum = 0.75
+			}
+			excludes = [
+			        "com.mauro.chatvia.controller.TestController"
+			]
+		}
+	}
+}
