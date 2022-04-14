@@ -1,0 +1,14 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  chat-server:
+    build: ./server
+    ports:
+      - "3333:3333"
+    links:
+      - broker
+  chat-client:
+    build: ./client
+    links:
+      - chat-server
+  broker:
+    build: ./broker
