@@ -1,5 +1,10 @@
 version: 2.1
 
+executors:
+  java17-ex:
+    docker:
+      - image: 'cimg/openjdk:17.0.2'
+
 orbs:
   gradle: circleci/gradle@2.2.0
 
@@ -8,3 +13,4 @@ workflows:
     jobs:
       - gradle/test:
           test_results_path: build/test-results/
+          executor: java17-ex
