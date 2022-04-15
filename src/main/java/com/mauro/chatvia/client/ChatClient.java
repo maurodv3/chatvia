@@ -2,6 +2,8 @@ package com.mauro.chatvia.client;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 import java.util.UUID;
@@ -15,6 +17,7 @@ import static picocli.CommandLine.Option;
  * Base command for Chat Client execution.
  * Reads the required options and starts an idle scan for outgoing messages and commands.
  */
+@Component
 @Command(mixinStandardHelpOptions = true, description = "Start Chat Client")
 public class ChatClient implements Runnable {
 
@@ -22,6 +25,8 @@ public class ChatClient implements Runnable {
 
     private static final String EXIT_CMD = "/quit";
     private static final String WHISPER_CMD = "/whisper "; // we split on whitespace so keep as it is necessary.
+
+    private ChatServiceFactory chatServiceFactory;
 
     @Option(names = {"-h", "--host"}, description = "Server URL", required = true)
     private String host  = "localhost";
@@ -42,7 +47,8 @@ public class ChatClient implements Runnable {
 
         final String url = buildURL(host);
 
-        ChatService chat = new ChatService(url, name, System.out)
+        ChatService chat = chatServiceFactory
+                .getChatService(url, name, System.out)
                 .connect();
 
         //Read messages until quit.
@@ -81,4 +87,8 @@ public class ChatClient implements Runnable {
         return "ws://" + host + ":3333/" + WS_ENDPOINT;
     }
 
+    @Autowired
+    public void setChatServiceFactory(ChatServiceFactory chatServiceFactory) {
+        this.chatServiceFactory = chatServiceFactory;
+    }
 }

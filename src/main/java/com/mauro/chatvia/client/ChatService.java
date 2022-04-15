@@ -43,6 +43,7 @@ public class ChatService {
      * @throws ClientException if connection fails.
      */
     public ChatService connect() throws ClientException {
+
         WebSocketClient wsClient = new StandardWebSocketClient();
         WebSocketStompClient stompClient = new WebSocketStompClient(wsClient);
         stompClient.setMessageConverter(new MappingJackson2MessageConverter());
@@ -96,7 +97,7 @@ public class ChatService {
                 });
     }
 
-    private void setCurrentSession(StompSession currentSession) {
+    void setCurrentSession(StompSession currentSession) {
         this.currentSession = currentSession;
     }
 
@@ -105,7 +106,7 @@ public class ChatService {
      * @throws ClientException if connection fails.
      */
     private void handleReconnection() throws ClientException {
-        if (!currentSession.isConnected()) {
+        if (currentSession == null || !currentSession.isConnected()) {
             LOGGER.info("Client is reconnecting.");
             this.connect();
         }
