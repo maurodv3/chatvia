@@ -7,5 +7,4 @@ workflows:
   test:
     jobs:
       - gradle/test:
-          store_artifacts: build/reports/
           test_results_path: build/test-results/
