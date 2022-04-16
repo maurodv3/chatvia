@@ -1,4 +1,4 @@
-version: "3.9"  # optional since v1.27.0
+version: "3.9"
 services:
   chat-server:
     build: ./server
@@ -6,9 +6,10 @@ services:
       - "3333:3333"
     links:
       - broker
-  chat-client:
-    build: ./client
-    links:
-      - chat-server
+    environment:
+      - BROKER_ENABLED=true
+      - BROKER_HOST=broker
   broker:
     build: ./broker
+    ports:
+      - "61613:61613"

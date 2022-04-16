@@ -1,6 +1,6 @@
 FROM openjdk:17
-MAINTAINER mauro
 
+RUN ls
 COPY build/libs/app.jar app.jar
 
 ENTRYPOINT ["java","-jar","-Dspring.profiles.active=server","/app.jar"]
