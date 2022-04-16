@@ -1,14 +1,11 @@
 # Chatvia
 
----
 [![<maurodv3>](https://circleci.com/gh/maurodv3/chatvia.svg?style=shield)](<LINK>)
 
 ## Simple Chat server and client, made in Java and Spring.
 
 The application works using [Websockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) for communicating the server and different clients maintaining an open connection between both parties. For this it makes use of the [STOMP](https://stomp.github.io/stomp-specification-1.2.html) sub-protocol over Websocket for simplified communication.
 Using this technology we can share messages between clients at real-time and avoid pooling from messages on the client at the cost of having more open connections in the server.
-
----
 
 ### Build the project
 ```bash
